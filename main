@@ -1,0 +1,139 @@
+#include <iostream>
+void bubbleSort(int arr[], int n) {
+	for (int j = n - 1; j > 0; j--) {
+		for (int i = 0; i < j; i++) {
+			if (arr[i + 1] < arr[i]) {
+				std::swap(arr[i + 1], arr[i]);
+			}
+		}
+	}
+}
+
+void insertionSort(int arr[], int n) {
+
+	for(int j = 1; j < n; j++){
+	int key = j;
+	for (int i = j - 1; i >= 0; i--) {
+		if (arr[key] < arr[i]) {
+			std::swap(arr[key], arr[i]);
+			key = i;
+		}
+		else
+			break;
+		}
+	}
+}
+
+void selectionSort(int arr[], int n) {
+	for (int j = 0; j < n - 1; j++) {
+		int key = j;
+		for (int i = j + 1; i <= n - 1; i++) {
+			if (arr[key] > arr[i]) {
+				std::swap(arr[key], arr[i]);
+				key = i;
+			}
+		}
+	}
+}
+void quickSort(int arr[], int l, int r) {
+	if (l < r) {
+		int pivot = l;
+		int i = l;
+		int j = r;
+		while (i < j) {
+			while (arr[i] <= arr[pivot] && i < r)
+				i++;
+			while (arr[j] > arr[pivot])
+				j--;
+			if (i < j) {
+				std::swap(arr[i], arr[j]);
+			}
+		}
+		std::swap(arr[pivot], arr[j]);
+		quickSort(arr, l, j - 1);
+		quickSort(arr, j + 1, r);
+	}
+}
+
+void merge(int array[], int const left, int const mid,
+	int const right)
+{
+	auto const subArrayOne = mid - left + 1;
+	auto const subArrayTwo = right - mid;
+
+	// Create temp arrays
+	auto* leftArray = new int[subArrayOne],
+		* rightArray = new int[subArrayTwo];
+
+	// Copy data to temp arrays leftArray[] and rightArray[]
+	for (auto i = 0; i < subArrayOne; i++)
+		leftArray[i] = array[left + i];
+	for (auto j = 0; j < subArrayTwo; j++)
+		rightArray[j] = array[mid + 1 + j];
+
+	auto indexOfSubArrayOne
+		= 0, // Initial index of first sub-array
+		indexOfSubArrayTwo
+		= 0; // Initial index of second sub-array
+	int indexOfMergedArray
+		= left; // Initial index of merged array
+
+	// Merge the temp arrays back into array[left..right]
+	while (indexOfSubArrayOne < subArrayOne
+		&& indexOfSubArrayTwo < subArrayTwo) {
+		if (leftArray[indexOfSubArrayOne]
+			<= rightArray[indexOfSubArrayTwo]) {
+			array[indexOfMergedArray]
+				= leftArray[indexOfSubArrayOne];
+			indexOfSubArrayOne++;
+		}
+		else {
+			array[indexOfMergedArray]
+				= rightArray[indexOfSubArrayTwo];
+			indexOfSubArrayTwo++;
+		}
+		indexOfMergedArray++;
+	}
+	// Copy the remaining elements of
+	// left[], if there are any
+	while (indexOfSubArrayOne < subArrayOne) {
+		array[indexOfMergedArray]
+			= leftArray[indexOfSubArrayOne];
+		indexOfSubArrayOne++;
+		indexOfMergedArray++;
+	}
+	// Copy the remaining elements of
+	// right[], if there are any
+	while (indexOfSubArrayTwo < subArrayTwo) {
+		array[indexOfMergedArray]
+			= rightArray[indexOfSubArrayTwo];
+		indexOfSubArrayTwo++;
+		indexOfMergedArray++;
+	}
+	delete[] leftArray;
+	delete[] rightArray;
+}
+
+// begin is for left index and end is
+// right index of the sub-array
+// of arr to be sorted */
+void mergeSort(int array[], int const begin, int const end)
+{
+	if (begin >= end)
+		return; // Returns recursively
+
+	auto mid = begin + (end - begin) / 2;
+	mergeSort(array, begin, mid);
+	mergeSort(array, mid + 1, end);
+	merge(array, begin, mid, end);
+}
+
+void printArray(int arr[], int n) {
+	for (int i = 0; i < n; i++) {
+		std::cout << arr[i];
+	}
+}
+
+int main() {
+	return 0;
+}
